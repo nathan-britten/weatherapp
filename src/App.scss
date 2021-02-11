@@ -1,0 +1,322 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Inter', serif;
+  font-weight: 400;
+ }
+ 
+ h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+ }
+
+.weather-icon {
+  height: 50px;
+  width: 50px;
+}
+#root {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  .ui.grid .maincontainer {
+    border: 1px solid black;
+    padding: 30px 10px;
+    background-image: url("./images/bg2.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: inset 0 0 0 1000px rgba(255, 254, 254, 0.7);
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  .searchholder {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    i.icon {
+      font-size: 2rem;
+      
+      &.list {
+        font-size: 1.5rem;
+        display: none;
+      }
+      &.search {
+        right: -20px;
+        margin: 0;
+        background-color: white;
+        opacity: 1;
+      }
+
+      &.map.marker {
+        margin: 0.25rem .25rem 0 0;
+      }
+    }
+
+    & > .ui.search {
+    }
+
+    .search.icon {
+      font-size: 1rem;
+      &:before {
+        content: "\f078";
+      }
+    }
+
+    .ui.input>input {
+      border: none;
+      padding: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: bolder;
+      padding-right: 0!important;
+      border-radius: .28571429rem;
+
+    }
+  }
+
+  .single-day {
+    .weather-description {
+      margin-top: 10px;
+    }
+
+    .date {
+      margin: 15px 0;
+    }
+    .minmax-holder {
+      & > .column {
+        text-align: center;
+      }
+    }
+
+    .info-icons {
+      & > div {
+        animation: slideleft .3s ease-in;
+      }
+    }
+  }
+
+
+  .days-slider {
+    margin: 20px 0;
+    font-weight: 600;
+    .slick-slide {
+      padding: 2px 0px;
+      text-align: center;
+      transition: all .3s ease;
+      &:hover {
+        cursor: pointer;
+        transform: translateY(-2px);
+      }
+
+      &[data-currentday=currentday] {
+        transform: translateY(-6px);
+
+        color: black;
+        & > div {
+          background-color:rgba(129, 116, 116, .3);
+          margin: 0 1px; 
+          border-radius: 10px;
+          color: black;
+          padding: 5px 0 5px 0;
+        }
+      }
+      &:not([data-currentday=currentday]) {
+        color: grey;
+      }
+
+      & > div {
+        & > div {
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    
+    }
+
+    .slick-dots {
+      bottom: -5px;
+    }
+
+    .slick-list {
+      padding: 10px 0px; 
+    }
+
+    .slick-arrow {
+      &:before {
+        color: rgba(0,0,255, 0.4);
+      }
+
+      &.slick-prev {
+        left: -15px;
+      }
+      &.slick-next {
+        right: -15px;
+      }
+    }
+
+    .movedown {
+      animation: clicked .3s ease-in;
+    }
+  }
+
+
+
+
+
+  @keyframes slideup {
+    0% {
+      transform: translateY(100px);
+      opacity: 0.3;
+    }
+
+    100% {
+      transform: translateY(0px);
+      opacity: 1;
+
+    }
+  }
+
+
+  @keyframes clicked {
+    0% {
+      transform: translateY(-5px);
+      opacity: 0.3;
+    }
+
+    100% {
+      transform: translateY(0px);
+      opacity: 1;
+
+    }
+  }
+
+  @keyframes slideleft {
+    0% {
+      transform: translateX(50px);
+      opacity: 0.3;
+    }
+    
+    70% {
+      transform: translateX(0px);
+    }
+    100% {
+      opacity: 1;
+
+    }
+  }
+
+  @keyframes comein {
+
+    from{
+      transform: translateY(30%);
+      /* transform: translateX(10%); */
+      opacity:0;
+    }
+  
+    to{
+      transform: translateY(0%);
+      /* transform: translateX(0%); */
+  
+      opacity:1;
+    }
+  }
+
+
+  .temp-holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+
+    .temp-symbol {
+      font-weight: bold;
+    }
+  }
+
+  .hours-weather-slider {
+    .temp-holder {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.25rem;
+  
+      .temp-symbol {
+        font-weight: bold;
+      }
+    }
+    .slick-slide {
+      padding: 20px 0;
+      & > div {
+        margin: 0 5px;
+      }
+    }
+    .slide-container {
+      transition: all .3s ease;
+      &:focus {
+        outline: none;
+      }
+      &:hover {
+        transform: translateY(-3px);
+      }
+    }
+    .hours-card {
+      display: flex!important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      text-align: center;
+      box-shadow: 0px 2px 5px rgba(0,0,0, 0.2);
+      border-radius: 10px;
+      transition: all 0.3s ease-in;
+      padding: 10px;
+      min-height: 145px;
+      &:focus {
+        outline: none;
+      }
+
+      .weather {
+        img {
+          width: 100%;
+        }
+      }
+    }
+
+    .slick-dots {
+      bottom: -10px;
+    }
+    .slideupin {
+      animation: comein 1s ease forwards .25s;
+    }
+
+
+    .slick-slide:nth-of-type(2n) .hours-card {
+      background-color: rgb(171,226,255);
+    }
+    .slick-slide:nth-of-type(2n+1) .hours-card {
+      background-color: rgb(179,170,253);
+    }
+    .slick-slide:nth-of-type(1) .hours-card {
+      background-color: rgb(171,226,255);
+    }
+    .slick-slide:nth-of-type(2) .hours-card {
+      background-color: rgb(255,181,182);
+    }
+    .slick-slide:nth-of-type(4) .hours-card {
+      background-color: rgb(255,181,182);
+    }
+    .slick-slide:nth-of-type(7) .hours-card {
+      background-color: rgb(255,181,182);
+    }
+    .slick-slide:nth-of-type(3) .hours-card {
+      background-color: rgb(179,170,253);
+    }
+    
+  }
+
+}
