@@ -10,31 +10,44 @@ const SearchExampleStandard = (props) => {
   }, [props])
 
   const handleSearchChange = (e, data) => {
-    // props.deleteResults();
     props.onChange(data.value)
   }
 
   const handleResultSelect = (e, data) => {
-    console.log('searchbarSelectfiring')
 
     props.setCity(data.result.title);
     props.onChange(data.result.titlet)
     
+  }
+  const list = () => {
+    if(!props.results) {
+      return;
+    }
+    console.log(props.results)
+    return props.results.map(el => {
+      console.log(el.title)
+      return (
+        <li className='test'>{el.title}</li>
+      ) 
+    })
   }
   return (
     <React.Fragment>
       <div className="ui one column grid">
         <div className="searchholder column">
         <i className="map marker alternate icon"></i>
+
         <Search
           onResultSelect={handleResultSelect}
           onSearchChange={handleSearchChange}
           results={props.results}
           value={props.value}
         />
+        
         <i className="list icon"></i>
         </div>
       </div>
+      {list()}
     </React.Fragment>
   )
 }

@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
 body {
   font-family: 'Inter', serif;
   font-weight: 400;
@@ -240,6 +243,7 @@ body {
   }
 
   .hours-weather-slider {
+
     .temp-holder {
       display: flex;
       justify-content: center;
@@ -276,6 +280,7 @@ body {
       transition: all 0.3s ease-in;
       padding: 10px;
       min-height: 145px;
+      opacity: 0;
       &:focus {
         outline: none;
       }

@@ -29,8 +29,10 @@ class MultipleItems extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(prevProps !== this.props) {
+    if(prevProps.data !== this.props.data) {
       if(this.props.type === 'hours') {
+        console.log('rendered now')
+
         let sliderData = [];
         if(this.props.data) {
         sliderData = Object.values(this.props.data)
@@ -78,19 +80,20 @@ class MultipleItems extends Component {
 
   renderHoursWeatherData() {
     return this.state.hoursToShow.map(( element, index ) => {
-
+    
       let weatherCode = element.weather[0].icon.substring(0,2);
 
       const style = {
         animation: `comein 1s ease forwards`,
         animationDelay: `${index/8}s`,
-        transition: 'all .2s ease',
+
         animationFillMode: 'forwards'
       }
       let randomkey = shortid.generate();
       return (
-        <div className='slide-container'>
+        <div className='slide-container' >
           <div className="hours-card" key={randomkey} style={style}>
+          
           {this.props.timeConverter(element.dt, true)}
           <div className="weather">
             <img src={`/assets/SVG/${this.state.codeArray[weatherCode][0]}`} alt=""/>
@@ -110,8 +113,10 @@ class MultipleItems extends Component {
 
   renderLogic() {
     if(this.props.type === 'days') {
+      console.log('rendering 2')
       return this.renderDaysSlider();
     } else {
+      console.log('rendering 3')
       return this.renderHoursWeatherData();
     }
   }
