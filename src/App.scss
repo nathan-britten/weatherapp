@@ -83,6 +83,8 @@ body {
   }
 
   .single-day {
+    flex-direction: column!important;
+
     .weather-description {
       margin-top: 10px;
     }
@@ -91,6 +93,9 @@ body {
       margin: 15px 0;
     }
     .minmax-holder {
+      transition: all 2s ease;
+      animation: appear .3s ease-in;
+
       & > .column {
         text-align: center;
       }
@@ -208,6 +213,17 @@ body {
     70% {
       transform: translateX(0px);
     }
+    100% {
+      opacity: 1;
+
+    }
+  }
+
+  @keyframes appear {
+    0% {
+      opacity: 0.3;
+    }
+
     100% {
       opacity: 1;
 

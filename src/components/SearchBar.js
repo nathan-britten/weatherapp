@@ -23,7 +23,6 @@ const SearchExampleStandard = (props) => {
     if(!props.results) {
       return;
     }
-    console.log(props.results)
     return props.results.map(el => {
       console.log(el.title)
       return (
