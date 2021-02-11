@@ -23,10 +23,9 @@ const SearchExampleStandard = (props) => {
     if(!props.results) {
       return;
     }
-    return props.results.map(el => {
-      console.log(el.title)
+    return props.results.map((el, index) => {
       return (
-        <li className='test'>{el.title}</li>
+        <li className='test' key={index}>{el.title}</li>
       ) 
     })
   }

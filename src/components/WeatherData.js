@@ -32,9 +32,9 @@ const WeatherData = () => {
     '02' : ['Cloudy-Sun.svg','linear-gradient( 125deg , rgba(238, 97, 35, 0.9), rgba(208, 74, 17, 0.2))'],
     '03' : ['Cloud.svg','linear-gradient( 125deg , rgba(169, 177, 169, 0.9), rgba(169, 177, 169, 0.2))'],
     '04' : ['Cloudy 2.svg', 'linear-gradient( 125deg , rgba(169, 177, 169, 0.9), rgba(169, 177, 169, 0.2))'],
-    '09' : ['Rain 3.svg','linear-gradient( 125deg , rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.2))'],
+    '09' : ['Rain.svg','linear-gradient( 125deg , rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.2))'],
     '10' : ['Rain 4.svg','linear-gradient( 125deg , rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.2))'],
-    '11' : 'Thunder cloudy.svg',
+    '11' : ['Thunder cloudy.svg',],
     '13' : ['Snow.svg', 'linear-gradient( 125deg , rgba(169, 177, 169, 0.9), rgba(169, 177, 169, 0.2))'],
     '50' : ['Wave.svg', 'linear-gradient( 125deg , rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.2))']
   }

@@ -29,6 +29,10 @@ class MultipleItems extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+
+    if(prevProps.data === this.props.data) {
+      return;
+    }
     if(prevProps.data !== this.props.data) {
       if(this.props.type === 'hours') {
         console.log('rendered now')
@@ -37,12 +41,12 @@ class MultipleItems extends Component {
         if(this.props.data) {
         sliderData = Object.values(this.props.data)
         }
-        this.setState({hoursToShow: sliderData})      
+        this.setState({hoursToShow: sliderData})
+        console.log('component did update')
       }
 
       if(this.props.type === 'days') {
         this.setActive()
-
       }
     }
   }
@@ -89,10 +93,11 @@ class MultipleItems extends Component {
 
         animationFillMode: 'forwards'
       }
+      console.log(element)
       let randomkey = shortid.generate();
       return (
         <div className='slide-container' >
-          <div className="hours-card" key={randomkey} style={style}>
+          <div className="hours-card" key={element.dt + element.wind.speed} style={style}>
           
           {this.props.timeConverter(element.dt, true)}
           <div className="weather">
