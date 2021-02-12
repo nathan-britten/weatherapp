@@ -7,7 +7,6 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
 
   const [weather, setWeather] = useState(data);
   useEffect(() => {
-    console.log(weather)
     setWeather(data)
 
   }, [data])

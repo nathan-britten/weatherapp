@@ -14,20 +14,10 @@ const SearchExampleStandard = (props) => {
   }
 
   const handleResultSelect = (e, data) => {
-    console.log(props)
     props.setCity(data.result.title);
     props.onChange(data.result.title)
   }
-  const list = () => {
-    if(!props.results) {
-      return;
-    }
-    return props.results.map((el, index) => {
-      return (
-        <li className='test' key={index}>{el.title}</li>
-      ) 
-    })
-  }
+
   return (
     <React.Fragment>
       <div className="ui one column grid">
@@ -44,7 +34,6 @@ const SearchExampleStandard = (props) => {
         <i className="list icon"></i>
         </div>
       </div>
-      {list()}
     </React.Fragment>
   )
 }
