@@ -5,27 +5,13 @@ import TempSymbol from './TempSymbol';
 
 const SingleDay = ({data, unixTimeConverter, codeArray}) => {
 
-  const [dataHasChanged, setDataHasChanged] = useState(false);
   const [weather, setWeather] = useState(data);
   useEffect(() => {
-
+    console.log(weather)
     setWeather(data)
 
-    if(previous !== data && previous !== undefined) {
-      setDataHasChanged(true);
-    }
   }, [data])
   
-  function usePrevious() {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = data
-    }, [data])
-
-    return ref.current
-  }
-  const previous = usePrevious(data);
-
   const toUpperCase = (phrase) => {
 
     let arrayOfWords = phrase.split(' ');
@@ -61,25 +47,25 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
     return(
       <div className="ui grid">
       <div className="info-icons four column row">
-        <div className="column wind-speed" >
+        <div className="column wind-speed" data-tooltip="Wind Speed">
           <img src="/assets/SVG/Wind 2.svg" alt=""/>
           <div className="wind-speed-data">
             {weather.wind_speed} 
           </div>
         </div>
-        <div className="column humidity">
+        <div className="column humidity" data-tooltip="Humidity">
           <img src="/assets/SVG/Humidity.svg" alt=""/>
           <div className="wind-speed-data">
             {weather.humidity} %
           </div>
         </div>
-        <div className="column sunrise">
+        <div className="column sunrise" data-tooltip="Sunrise">
           <img src="/assets/SVG/Sunrise2.svg" alt=""/>
           <div className="sunrise-data">
             {unixTimeConverter(weather.sunrise, false, true)}
           </div>
         </div>
-        <div className="column sunset">
+        <div className="column sunset" data-tooltip="Sunset">
           <img src="/assets/SVG/Sunset2.svg" alt=""/>
           <div className="sunset-data">
             {unixTimeConverter(weather.sunset, false, true)}
@@ -98,13 +84,13 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
     return (
       <React.Fragment>
           <div className="two column row minmax-holder">
-            <div className="column min-temp">
+            <div className="column min-temp" data-tooltip="Minimum">
               <img src="/assets/SVG/Temperature down.svg" alt=""/>
               <div className="temp-min-data">
                 {weather.temp.min}&#176;
               </div>
             </div>
-            <div className="column max-temp">
+            <div className="column max-temp" data-tooltip="Maximum">
               <img src="/assets/SVG/Temperature up.svg" alt=""/>
               <div className="temp-max-data">
                 {weather.temp.max}&#176;

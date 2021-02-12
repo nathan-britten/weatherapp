@@ -12,7 +12,6 @@ class MultipleItems extends Component {
       type: '',
       hoursToShow: [],
       specificDay: [],
-      clicked: false,
       codeArray: props.codeArray
     }
   }
@@ -35,14 +34,12 @@ class MultipleItems extends Component {
     }
     if(prevProps.data !== this.props.data) {
       if(this.props.type === 'hours') {
-        console.log('rendered now')
 
         let sliderData = [];
         if(this.props.data) {
         sliderData = Object.values(this.props.data)
         }
         this.setState({hoursToShow: sliderData})
-        console.log('component did update')
       }
 
       if(this.props.type === 'days') {
@@ -53,7 +50,6 @@ class MultipleItems extends Component {
 
   setActive() {
     let daysSlides = document.querySelectorAll('.days-slider .slick-slide')
-    
     daysSlides.forEach((el, index) => {
       el.removeAttribute('data-currentday')
       if(el.innerText ===  this.props.timeConverter(this.props.currentDay)) {
@@ -64,9 +60,8 @@ class MultipleItems extends Component {
   }
 
   handleDayClick = (e, element) => {
-        const unixTime = element[0];
+    const unixTime = element[0];
     this.props.setDay(unixTime)
-    this.setState({clicked: true})
   }
 
   renderDaysSlider() {
@@ -75,7 +70,7 @@ class MultipleItems extends Component {
 
       return (
         
-        <div key={element[0]} onClick={(e) => this.handleDayClick(e, element)} >
+        <div className='tester' key={element[0]} onClick={(e) => this.handleDayClick(e, element)} >
           {element[1]}
         </div>
       )
@@ -93,11 +88,10 @@ class MultipleItems extends Component {
 
         animationFillMode: 'forwards'
       }
-      console.log(element)
       let randomkey = shortid.generate();
       return (
         <div className='slide-container' >
-          <div className="hours-card" key={element.dt + element.wind.speed} style={style}>
+          <div className="hours-card" key={element.visibility+element.main.temp+element.pop+element.wind.speed} style={style}>
           
           {this.props.timeConverter(element.dt, true)}
           <div className="weather">
@@ -118,10 +112,8 @@ class MultipleItems extends Component {
 
   renderLogic() {
     if(this.props.type === 'days') {
-      console.log('rendering 2')
       return this.renderDaysSlider();
     } else {
-      console.log('rendering 3')
       return this.renderHoursWeatherData();
     }
   }

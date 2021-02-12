@@ -16,9 +16,10 @@ const WeatherData = () => {
   const [debounceSearchTerm, setdebounceSearchTerm] = useState(searchTerm);
 
   const [city, setCity] = useState('London');
-
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  let now = Math.round((new Date()).getTime() / 1000);
+  const [day, setDay] = useState(now);
 
   const [lat, setLat] = useState('51.5074');
   const [lon, setLon] = useState('0.1278');
@@ -28,15 +29,15 @@ const WeatherData = () => {
   const [initialCurrentWeather , setInitialCurrentWeather] = useState({});
 
   let codeArray = {
-    '01' : ['Sun.svg','linear-gradient( 125deg , rgba(238, 97, 35, 0.9), rgba(208, 74, 17, 0.2))'],
-    '02' : ['Cloudy-Sun.svg','linear-gradient( 125deg , rgba(238, 97, 35, 0.9), rgba(208, 74, 17, 0.2))'],
-    '03' : ['Cloud.svg','linear-gradient( 125deg , rgba(169, 177, 169, 0.9), rgba(169, 177, 169, 0.2))'],
-    '04' : ['Cloudy 2.svg', 'linear-gradient( 125deg , rgba(169, 177, 169, 0.9), rgba(169, 177, 169, 0.2))'],
-    '09' : ['Rain.svg','linear-gradient( 125deg , rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.2))'],
-    '10' : ['Rain 4.svg','linear-gradient( 125deg , rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.2))'],
+    '01' : ['Sun.svg','linear-gradient(-52deg, rgba(190, 97, 35, 0.9), rgba(208, 74, 17, 0.3))'],
+    '02' : ['Cloudy-Sun.svg','linear-gradient(-52deg, rgba(190, 97, 35, 0.9), rgba(208, 74, 17, 0.3))'],
+    '03' : ['Cloud.svg','linear-gradient(-52deg, rgba(169, 255, 169, 0.9), rgba(169, 177, 169, 0.3))'],
+    '04' : ['Cloudy 2.svg', 'linear-gradient(-52deg, rgba(207, 207, 207, 0.9), rgba(169, 177, 169, 0.3))'],
+    '09' : ['Rain.svg','linear-gradient(-52deg, rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.5))'],
+    '10' : ['Rain 4.svg','linear-gradient(-52deg, rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.3))'],
     '11' : ['Thunder cloudy.svg',],
-    '13' : ['Snow.svg', 'linear-gradient( 125deg , rgba(169, 177, 169, 0.9), rgba(169, 177, 169, 0.2))'],
-    '50' : ['Wave.svg', 'linear-gradient( 125deg , rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.2))']
+    '13' : ['Snow.svg', 'linear-gradient(-52deg, rgba(169, 255, 169, 0.9), rgba(169, 177, 169, 0.3))'],
+    '50' : ['Wave.svg', 'linear-gradient(-52deg, rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.3))']
   }
 
 
@@ -92,19 +93,15 @@ const WeatherData = () => {
       let sevenday = response.data.daily;
       sevenday.splice(0,1);
 
-      // setWeather({...weather,
-      //   oneDayWeather: oneday,
-      //   sevenDayWeather: sevenday,
-      //   currentWeather: response.data.current
-      // })
-
       setWeather(prevState => ({
         ...prevState,
-        oneDayWeather: oneday,
         sevenDayWeather: sevenday,
-        currentWeather: response.data.current
+        // currentWeather: response.data.current
       }))
-
+    
+      loadCurrentWeather(response.data.current)
+      getCurrentDay(day)
+      setBackground(response.data.current);
       setInitialCurrentWeather(response.data.current)
 
     })
@@ -128,8 +125,6 @@ const WeatherData = () => {
 
     // setWeather({...weather, fiveDay : response.data.list})
   };
-
- 
 
   //for the debounce
   useEffect(() => {
@@ -159,21 +154,43 @@ const WeatherData = () => {
   useEffect(() => {
     fetchWeather(lon, lat, 'minutely,alerts')
     fetchFiveDayWeather(city)
+    getCurrentDay(day)
   }, [lon])
 
-  //for updating the weather 
-  useEffect(() => {
-    if(weather.currentWeather) {
-      let weathericon = weather.currentWeather.weather[0].icon
-      console.log(weathericon.substr(0,2))
-      
-      let background = codeArray[weathericon.substr(0,2)][1]
-      let maincontainer = document.querySelector('.maincontainer')
-      maincontainer.style.background = `${background}, url("./images/bg2.png");`
-      console.log(`${background}, url("./images/bg2.png");`)
-    } 
-  }, [weather, fiveDayWeather])
 
+  useEffect(() => {
+    loadCurrentWeather();
+  }, [day, weather.sevenDayWeather])
+
+  const loadCurrentWeather = () => {
+    //if not load initialCurrentWeather
+    
+    let dayChange = unixTimeConverter(day);
+    if(!weather.sevenDayWeather) {
+      return ''
+    }
+    weather.sevenDayWeather.forEach(item => {
+      // console.losg(item)
+
+      if(unixTimeConverter(item.dt) === dayChange) {
+
+        setWeather(prevState => ({
+          ...prevState,
+          currentWeather : {...prevState['currentWeather'], ...item }
+        }))
+        setBackground(item);
+
+      } else if(unixTimeConverter(initialCurrentWeather.dt) === dayChange) {
+
+        setBackground(item);
+        setWeather(prevState => ({
+          ...prevState,
+          currentWeather : {...prevState['currentWeather'], ...initialCurrentWeather }
+        }))
+
+      }
+    })
+  }
 
   const deleteResults = () => {
     setSearchResults('')
@@ -185,6 +202,9 @@ const WeatherData = () => {
 
   const handleCityChange = (data) => {    
     setCity(data);
+  }
+  const getCurrentDay = (data) => {
+    setDay(data);
   }
 
   const toUpperCase = (phrase) => {
@@ -206,31 +226,12 @@ const WeatherData = () => {
     return finalArray.join(' ');
   }
 
-  const getCurrentDay = (day) => {
-    let dayChange = unixTimeConverter(day);
-
-    if(!weather.sevenDayWeather) {
-      return ''
-    }
-    console.log(unixTimeConverter(initialCurrentWeather.dt))
-    console.log(dayChange)
-    weather.sevenDayWeather.forEach(item => {
-      if(unixTimeConverter(item.dt) === dayChange) {
-
-        setWeather(prevState => ({
-          ...prevState,
-          currentWeather : {...prevState['currentWeather'], ...item }
-        }))
-
-      } else if(unixTimeConverter(initialCurrentWeather.dt) === dayChange) {
-
-        setWeather(prevState => ({
-          ...prevState,
-          currentWeather : {...prevState['currentWeather'], ...initialCurrentWeather }
-        }))
-
-      }
-    })
+  const setBackground = (item) => {
+    let bg = codeArray[item.weather[0].icon.substr(0,2)][1];
+    let bgnew = bg + ', url("/assets/bg2.png") ';
+    let backgroundContainer = document.querySelector('.maincontainer');
+    backgroundContainer.style.background = `${bgnew}`;
+    backgroundContainer.style.backgroundSize = "cover";
   }
 
   const unixTimeConverter = (time, minutes = false, sunrise = false, long = false) => {
@@ -274,10 +275,9 @@ const WeatherData = () => {
   return (
     <React.Fragment>
       <SearchBar loading={loading} value={searchTerm} onChange={setCitySearch} results={searchResults} deleteResults={deleteResults} setCity={handleCityChange}/>
-      <SingleDay data={weather.currentWeather} toUpperCase={toUpperCase} unixTimeConverter={unixTimeConverter} codeArray={codeArray}/>
-      <FiveDay data={weather.fiveDay} toUpperCase={toUpperCase}  sevenDayData={weather.sevenDayWeather} getCurrentDay={getCurrentDay} unixTimeConverter={unixTimeConverter} codeArray={codeArray}/>
+      <SingleDay data={weather.currentWeather} toUpperCase={toUpperCase} unixTimeConverter={unixTimeConverter} codeArray={codeArray} city={city}/>
+      <FiveDay data={weather.fiveDay} toUpperCase={toUpperCase}  sevenDayData={weather.sevenDayWeather} getCurrentDay={getCurrentDay} unixTimeConverter={unixTimeConverter} codeArray={codeArray} />
     </React.Fragment>
-    
   )
 }
 

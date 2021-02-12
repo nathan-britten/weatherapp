@@ -26,7 +26,6 @@ const FiveDay = (props) => {
         [convertedDate] : {...prevState[convertedDate], [index] : item }
       }))
     })
-   
   }, [props, selectedDay])
 
   const getDaysSliderInfo = () => {

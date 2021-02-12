@@ -14,10 +14,9 @@ const SearchExampleStandard = (props) => {
   }
 
   const handleResultSelect = (e, data) => {
-
+    console.log(props)
     props.setCity(data.result.title);
-    props.onChange(data.result.titlet)
-    
+    props.onChange(data.result.title)
   }
   const list = () => {
     if(!props.results) {
