@@ -111,6 +111,11 @@ body {
       transition: all .5s linear;
       & > .column {
         text-align: center;
+         .wrapper {
+          box-shadow: 1px 2px 6px rgba(0, 0, 0, .2);
+          border-radius: 8px;
+          background-color: rgba(255,255,255,0.2);
+        }
       }
     }
 
@@ -127,6 +132,12 @@ body {
       & > div {
         animation: slideleft .3s ease-in;
       }
+
+      .column .wrapper {
+        box-shadow: 1px 2px 6px rgba(0, 0, 0, .2);
+        border-radius: 8px;
+        background-color: rgba(255,255,255,0.2);
+      }
     }
   }
 
@@ -135,6 +146,7 @@ body {
     margin: 20px 0;
     font-weight: 600;
     .slick-slide {
+      
       padding: 2px 0px;
       text-align: center;
       transition: all .3s ease;
@@ -143,20 +155,28 @@ body {
         transform: translateY(-2px);
       }
 
-      &[data-currentday=currentday] {
-        transform: translateY(-6px);
+      & > div {
+        background-color: rgba(255,255,255,0.1);
+        box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 2px 0 2px 0;
+        margin: 0 8px;
+      }
 
+      &[data-currentday=currentday] {
+        transform: translateY(-2px);
         color: black;
         & > div {
           background-color:rgba(129, 116, 116, .3);
-          margin: 0 1px; 
           border-radius: 10px;
           color: black;
-          padding: 5px 0 5px 0;
+          padding: 2px 0 2px 0;
+          margin: 0 8px;
         }
       }
       &:not([data-currentday=currentday]) {
         color: rgb(34, 31, 31);
+        
       }
 
       & > div {
@@ -170,7 +190,7 @@ body {
     }
 
     .slick-dots {
-      bottom: -5px;
+      bottom: -20px;
     }
 
     .slick-list {

@@ -183,7 +183,7 @@ const WeatherData = () => {
       // console.losg(item)
 
       if(unixTimeConverter(item.dt) === dayChange) {
-
+        console.log(item)
         setWeather(prevState => ({
           ...prevState,
           currentWeather : {...prevState['currentWeather'], ...item }
@@ -191,7 +191,6 @@ const WeatherData = () => {
         setBackground(item);
 
       } else if(unixTimeConverter(initialCurrentWeather.dt) === dayChange) {
-
         setBackground(item);
         setWeather(prevState => ({
           ...prevState,

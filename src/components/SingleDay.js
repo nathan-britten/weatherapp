@@ -47,28 +47,38 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
       <div className="ui grid">
       <div className="info-icons four column row">
         <div className="column wind-speed" data-tooltip="Wind Speed">
-          <img src="/assets/SVG/Wind 2.svg" alt=""/>
-          <div className="wind-speed-data">
-            {weather.wind_speed} 
+          <div className="wrapper">
+            <img src="/assets/SVG/Wind 2.svg" alt=""/>
+            <div className="wind-speed-data">
+              {weather.wind_speed} 
+            </div>
           </div>
         </div>
-        <div className="column humidity" data-tooltip="Humidity">
+        <div className="column humidity" data-tooltip="Chance of Rain">
+          <div className="wrapper">
           <img src="/assets/SVG/Humidity.svg" alt=""/>
           <div className="wind-speed-data">
-            {weather.humidity} %
+            {weather.pop * 100} %
+          </div>
           </div>
         </div>
         <div className="column sunrise" data-tooltip="Sunrise">
-          <img src="/assets/SVG/Sunrise2.svg" alt=""/>
-          <div className="sunrise-data">
-            {unixTimeConverter(weather.sunrise, false, true)}
+          <div className="wrapper">
+            <img src="/assets/SVG/Sunrise2.svg" alt=""/>
+            <div className="sunrise-data">
+              {unixTimeConverter(weather.sunrise, false, true)}
+            </div>
           </div>
+
         </div>
         <div className="column sunset" data-tooltip="Sunset">
-          <img src="/assets/SVG/Sunset2.svg" alt=""/>
-          <div className="sunset-data">
-            {unixTimeConverter(weather.sunset, false, true)}
+          <div className="wrapper">
+            <img src="/assets/SVG/Sunset2.svg" alt=""/>
+            <div className="sunset-data">
+              {unixTimeConverter(weather.sunset, false, true)}
+            </div>
           </div>
+
         </div>
       
       </div>
@@ -80,19 +90,32 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
     if(!weather.temp.min) {
       return;
     }
+    console.log(weather)
     return (
       <React.Fragment>
-          <div className="two column row minmax-holder">
+          <div className="three column row minmax-holder">
+            <div className="column UVI" data-tooltip="Ultra Violet Index">
+                <div className="wrapper">
+                  <img src="/assets/SVG/Sun.svg" alt=""/>
+                  <div className="temp-min-data">
+                    {weather.uvi}
+                  </div>
+                </div>
+            </div>
             <div className="column min-temp" data-tooltip="Minimum">
-              <img src="/assets/SVG/Temperature down.svg" alt=""/>
-              <div className="temp-min-data">
-                {weather.temp.min}&#176;
+              <div className="wrapper">
+                <img src="/assets/SVG/Temperature down.svg" alt=""/>
+                <div className="temp-min-data">
+                  {weather.temp.min}&#176;
+                </div>
               </div>
             </div>
             <div className="column max-temp" data-tooltip="Maximum">
-              <img src="/assets/SVG/Temperature up.svg" alt=""/>
-              <div className="temp-max-data">
-                {weather.temp.max}&#176;
+              <div className="wrapper">
+                <img src="/assets/SVG/Temperature up.svg" alt=""/>
+                <div className="temp-max-data">
+                  {weather.temp.max}&#176;
+                </div>
               </div>
             </div>
           </div>
