@@ -6,7 +6,7 @@ const SearchExampleStandard = (props) => {
   const [searchBarState, setsearchBarState] = useState(props)
 
   useEffect(() => {
-    setsearchBarState(props)
+    setsearchBarState(props)    
   }, [props])
 
   const handleSearchChange = (e, data) => {

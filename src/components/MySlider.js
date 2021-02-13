@@ -90,7 +90,7 @@ class MultipleItems extends Component {
       }
       let randomkey = shortid.generate();
       return (
-        <div className='slide-container' >
+        <div className='slide-container' key={element.dt} >
           <div className="hours-card" key={element.visibility+element.main.temp+element.pop+element.wind.speed} style={style}>
           
           {this.props.timeConverter(element.dt, true)}

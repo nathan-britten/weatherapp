@@ -8,7 +8,7 @@ const FiveDay = (props) => {
   let now = Math.round((new Date()).getTime() / 1000);
   const [daysData, setDaysData] = useState({})
   const [selectedDay, setSelectedDay] = useState(now)
-
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const temp = {};
@@ -16,6 +16,16 @@ const FiveDay = (props) => {
     if(!props.data) {
       return;
     }
+    if(!props.data.data) {
+      return;
+    }
+
+    if(props.data.data === 'error') {
+      setError(true)
+      return;
+    }
+    setError(false)
+
     props.data.data.forEach((item, index) => {
 
       let convertedDate = props.unixTimeConverter(item.dt);
@@ -47,17 +57,28 @@ const FiveDay = (props) => {
     setSelectedDay(data)
     props.getCurrentDay(data)
   }
-  
-  return(
-    <React.Fragment>
-    <div className="days-slider">
-      <MySlider data={getDaysSliderInfo()} timeConverter={props.unixTimeConverter} type='days' setDay={setDay} currentDay={selectedDay}/>
+
+  if(error) {
+    return (
+      <div className="ui placeholder segment">
+        <div className="ui icon header">
+          There is no 5-Day weather for this location
+        </div>
     </div>
-    <div className="hours-weather-slider">
-      <MySlider data={getHoursSliderInfo()} type='hours' timeConverter={props.unixTimeConverter} toUpperCase={props.toUpperCase} codeArray={props.codeArray}/>
-    </div>
-    </React.Fragment>
-  )
+    )
+  } else {
+    return(
+      <React.Fragment>
+      <div className="days-slider">
+        <MySlider data={getDaysSliderInfo()} timeConverter={props.unixTimeConverter} type='days' setDay={setDay} currentDay={selectedDay}/>
+      </div>
+      <div className="hours-weather-slider">
+        <MySlider data={getHoursSliderInfo()} type='hours' timeConverter={props.unixTimeConverter} toUpperCase={props.toUpperCase} codeArray={props.codeArray}/>
+      </div>
+      </React.Fragment>
+    )
+  }
+
 }
 
 export default FiveDay;

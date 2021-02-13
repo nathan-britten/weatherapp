@@ -9,6 +9,7 @@ import googleplaces from '../apis/googleplaces';
 import SearchBar from './SearchBar';
 import SingleDay from './SingleDay';
 import FiveDay from './FiveDay';
+import MySearchBar from './MySearchBar';
 
 const WeatherData = () => {
 
@@ -101,6 +102,7 @@ const WeatherData = () => {
     
       loadCurrentWeather(response.data.current)
       getCurrentDay(day)
+      
       setBackground(response.data.current);
       setInitialCurrentWeather(response.data.current)
 
@@ -113,15 +115,23 @@ const WeatherData = () => {
       q: city,
       units: 'metric',
       appid: 'e62dd17a4c10cec02ebada80e6844218',
-    }})
+    }}).catch((error) => {
+      console.log(error)
+      setWeather(prevState => ({
+        ...prevState,
+        fiveDay : {...prevState['fiveDay'], 'data': 'error' }
+      }))
+    })
     if(!weather) {
       return;
     }
+    if(response) {
+      setWeather(prevState => ({
+        ...prevState,
+        fiveDay : {...prevState['fiveDay'], 'data': response.data.list }
+      }))
+    }
 
-    setWeather(prevState => ({
-      ...prevState,
-      fiveDay : {...prevState['fiveDay'], 'data': response.data.list }
-    }))
 
     // setWeather({...weather, fiveDay : response.data.list})
   };
@@ -141,13 +151,13 @@ const WeatherData = () => {
   //for fetch the city autocomplete
   useEffect(() => {
     if(debounceSearchTerm) {
-      getListOfCities()
+      // getListOfCities()
     }
   },[debounceSearchTerm] )
 
   //for the city lat & long
   useEffect(() => {
-    fetchGooglePlace();
+    // fetchGooglePlace();
   }, [city])
 
   //for the weather 
@@ -227,11 +237,15 @@ const WeatherData = () => {
   }
 
   const setBackground = (item) => {
+    console.log(item)
     let bg = codeArray[item.weather[0].icon.substr(0,2)][1];
     let bgnew = bg + ', url("/assets/bg2.png") ';
     let backgroundContainer = document.querySelector('.maincontainer');
-    backgroundContainer.style.background = `${bgnew}`;
-    backgroundContainer.style.backgroundSize = "cover";
+    if(backgroundContainer) {
+      backgroundContainer.style.background = `${bgnew}`;
+      backgroundContainer.style.backgroundSize = "cover";
+    }
+
   }
 
   const unixTimeConverter = (time, minutes = false, sunrise = false, long = false) => {
@@ -274,7 +288,8 @@ const WeatherData = () => {
 
   return (
     <React.Fragment>
-      <SearchBar loading={loading} value={searchTerm} onChange={setCitySearch} results={searchResults} deleteResults={deleteResults} setCity={handleCityChange}/>
+      {/* <SearchBar loading={loading} value={searchTerm} onChange={setCitySearch} results={searchResults} deleteResults={deleteResults} setCity={handleCityChange}/> */}
+      <MySearchBar onChange={setCitySearch} setCity={handleCityChange} setLat={setLat} setLon={setLon}/>
       <SingleDay data={weather.currentWeather} toUpperCase={toUpperCase} unixTimeConverter={unixTimeConverter} codeArray={codeArray} city={city}/>
       <FiveDay data={weather.fiveDay} toUpperCase={toUpperCase}  sevenDayData={weather.sevenDayWeather} getCurrentDay={getCurrentDay} unixTimeConverter={unixTimeConverter} codeArray={codeArray} />
     </React.Fragment>
