@@ -54,13 +54,13 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
             </div>
           </div>
         </div>
-        <div className="column humidity" data-tooltip="Chance of Rain">
-          <div className="wrapper">
-          <img src="/assets/SVG/Humidity.svg" alt=""/>
-          <div className="wind-speed-data">
-            {weather.pop * 100} %
-          </div>
-          </div>
+        <div className="column UVI" data-tooltip="Ultra Violet Index">
+            <div className="wrapper">
+              <img src="/assets/SVG/Sun.svg" alt=""/>
+              <div className="temp-min-data">
+                {weather.uvi}
+              </div>
+            </div>
         </div>
         <div className="column sunrise" data-tooltip="Sunrise">
           <div className="wrapper">
@@ -94,14 +94,14 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
     return (
       <React.Fragment>
           <div className="three column row minmax-holder">
-            <div className="column UVI" data-tooltip="Ultra Violet Index">
-                <div className="wrapper">
-                  <img src="/assets/SVG/Sun.svg" alt=""/>
-                  <div className="temp-min-data">
-                    {weather.uvi}
-                  </div>
-                </div>
+            <div className="column humidity" data-tooltip="Chance of Rain">
+              <div className="wrapper">
+              <img src="/assets/SVG/Humidity.svg" alt=""/>
+              <div className="wind-speed-data">
+                {weather.pop * 100} %
+              </div>
             </div>
+        </div>
             <div className="column min-temp" data-tooltip="Minimum">
               <div className="wrapper">
                 <img src="/assets/SVG/Temperature down.svg" alt=""/>
