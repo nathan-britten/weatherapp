@@ -66,7 +66,7 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
           <div className="wrapper">
             <img src="/assets/SVG/Sunrise2.svg" alt=""/>
             <div className="sunrise-data">
-              {unixTimeConverter(weather.sunrise, false, true)}
+              {unixTimeConverter(weather.sunrise, false, true).substring(0,5)}
             </div>
           </div>
 
@@ -75,7 +75,7 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
           <div className="wrapper">
             <img src="/assets/SVG/Sunset2.svg" alt=""/>
             <div className="sunset-data">
-              {unixTimeConverter(weather.sunset, false, true)}
+              {unixTimeConverter(weather.sunset, false, true).substring(0,5)}
             </div>
           </div>
 
