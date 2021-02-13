@@ -160,7 +160,7 @@ body {
         box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
         padding: 2px 0 2px 0;
-        margin: 0 11px;
+        margin: 0 15px;
       }
 
       &[data-currentday=currentday] {
@@ -171,7 +171,7 @@ body {
           border-radius: 10px;
           color: black;
           padding: 2px 0 2px 0;
-          margin: 0 11px;
+          margin: 0 15px;
         }
       }
       &:not([data-currentday=currentday]) {

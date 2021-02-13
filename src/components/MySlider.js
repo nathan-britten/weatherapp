@@ -67,7 +67,6 @@ class MultipleItems extends Component {
   renderDaysSlider() {
 
     return this.props.data.map(element => {
-
       return (
         
         <div className='tester' key={element[0]} onClick={(e) => this.handleDayClick(e, element)} >
