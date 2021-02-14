@@ -1,12 +1,8 @@
 import React, {useEffect, useState} from 'react';
-// import _ from 'lodash';
 
 import openweathermap from '../apis/openweatherapi';
 import openweatherapifiveday from '../apis/openweatherapifiveday';
-import googleautocomplete from '../apis/googleautocomplete';
-import googleplaces from '../apis/googleplaces';
 
-import SearchBar from './SearchBar';
 import SingleDay from './SingleDay';
 import FiveDay from './FiveDay';
 import MySearchBar from './MySearchBar';
@@ -17,8 +13,7 @@ const WeatherData = () => {
   const [debounceSearchTerm, setdebounceSearchTerm] = useState(searchTerm);
 
   const [city, setCity] = useState('London');
-  const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
+
   let now = Math.round((new Date()).getTime() / 1000);
   const [day, setDay] = useState(now);
 
@@ -29,6 +24,7 @@ const WeatherData = () => {
   const [fiveDayWeather, setFiveDayWeather] = useState([]);
   const [initialCurrentWeather , setInitialCurrentWeather] = useState({});
 
+  const [units, setUnits] = useState('metric');
   let codeArray = {
     '01' : ['Sun.svg','linear-gradient(-52deg, rgba(190, 97, 35, 0.9), rgba(208, 74, 17, 0.3))'],
     '02' : ['Cloudy-Sun.svg','linear-gradient(-52deg, rgba(190, 97, 35, 0.9), rgba(208, 74, 17, 0.3))'],
@@ -40,47 +36,13 @@ const WeatherData = () => {
     '13' : ['Snow.svg', 'linear-gradient(-52deg, rgba(169, 255, 169, 0.9), rgba(169, 177, 169, 0.3))'],
     '50' : ['Wave.svg', 'linear-gradient(-52deg, rgba(7, 168, 197, 0.9), rgba(7, 175, 134, 0.3))']
   }
-
-
-  const getListOfCities = async () => {
-    const response = await googleautocomplete.get('/', {
-      params: {
-        input: debounceSearchTerm,
-        types: '(cities)',
-        language: 'en',
-        key: 'AIzaSyBKNUpCDuQRcTCQWzWbpPnVdnFbY2TZ0pw',
-      }
-    })
-    const formattedResults = response.data.predictions.map(place => {
-      return {
-        title: place.description,
-        description: '',
-        image: '',
-        price: ''
-      }
-    })
-    setSearchResults(formattedResults)
-  }
-
-  const fetchGooglePlace = async () => {
-    const response = await googleplaces.get('/', {params: {
-      input: city,
-      inputtype: 'textquery',
-      fields: 'geometry',
-      key: 'AIzaSyBKNUpCDuQRcTCQWzWbpPnVdnFbY2TZ0pw',
-    }}).then((data) => {
-      let info = data.data.candidates[0].geometry.location;
-      setLat(info.lat)
-      setLon(info.lng)
-    }).catch(error => console.log(error.message))
-  }
-
-  const fetchWeather = async (lon, lat, exclude) => {
+  
+  const fetchWeather = async (lon, lat, exclude, units) => {
     const response = await openweathermap.get('/', {params: {
       lat: lat,
       lon: lon,
       exclude: exclude,
-      units: 'metric',
+      units: units,
       appid: 'e62dd17a4c10cec02ebada80e6844218',
     }}).then((response) => {
       let oneday = [];
@@ -103,20 +65,18 @@ const WeatherData = () => {
       loadCurrentWeather(response.data.current)
       getCurrentDay(day)
       
-      setBackground(response.data.current);
       setInitialCurrentWeather(response.data.current)
 
     })
   };
 
-  const fetchFiveDayWeather = async (city) => {
+  const fetchFiveDayWeather = async (city, units) => {
 
     const response = await openweatherapifiveday.get('/', {params: {
       q: city,
-      units: 'metric',
+      units: units,
       appid: 'e62dd17a4c10cec02ebada80e6844218',
     }}).catch((error) => {
-      console.log(error)
       setWeather(prevState => ({
         ...prevState,
         fiveDay : {...prevState['fiveDay'], 'data': 'error' }
@@ -131,20 +91,15 @@ const WeatherData = () => {
         fiveDay : {...prevState['fiveDay'], 'data': response.data.list }
       }))
     }
-
-
-    // setWeather({...weather, fiveDay : response.data.list})
   };
 
   //for the debounce
   useEffect(() => {
     const timerId = setTimeout(() => {
-      setLoading(false)
       setdebounceSearchTerm(searchTerm)
     }, 1000);
     return () => {
       clearTimeout(timerId);
-      setLoading(true)
     }
   }, [searchTerm])
 
@@ -157,54 +112,52 @@ const WeatherData = () => {
 
   //for the city lat & long
   useEffect(() => {
-    // fetchGooglePlace();
+    
   }, [city])
 
   //for the weather 
   useEffect(() => {
-    fetchWeather(lon, lat, 'minutely,alerts')
-    fetchFiveDayWeather(city)
+    fetchWeather(lon, lat, 'minutely,alerts', units)
+    fetchFiveDayWeather(city, units)
     getCurrentDay(day)
-  }, [lon])
+  }, [lon, units])
 
 
   useEffect(() => {
     loadCurrentWeather();
   }, [day, weather.sevenDayWeather])
 
-  const loadCurrentWeather = () => {
+  const loadCurrentWeather = (firstDayData) => {
     //if not load initialCurrentWeather
-    
     let dayChange = unixTimeConverter(day);
     if(!weather.sevenDayWeather) {
       return ''
     }
+    console.log(weather.sevenDayWeather)
     weather.sevenDayWeather.forEach(item => {
-      // console.losg(item)
-
       if(unixTimeConverter(item.dt) === dayChange) {
-        console.log(item)
+        setBackground(item);
         setWeather(prevState => ({
           ...prevState,
           currentWeather : {...prevState['currentWeather'], ...item }
         }))
-        setBackground(item);
+      }
+      else if(unixTimeConverter(initialCurrentWeather.dt) === dayChange) {
+      
 
-      } else if(unixTimeConverter(initialCurrentWeather.dt) === dayChange) {
-        setBackground(item);
+        let theData = firstDayData;
+        if(!firstDayData) {
+          theData = initialCurrentWeather
+        }
+        setBackground(theData);
         setWeather(prevState => ({
           ...prevState,
-          currentWeather : {...prevState['currentWeather'], ...initialCurrentWeather }
+          currentWeather : {...prevState['currentWeather'], ...theData }
         }))
-
       }
     })
   }
 
-  const deleteResults = () => {
-    setSearchResults('')
-  }
-  
   const setCitySearch = (data) => {
     setSearchTerm(data)
   }
@@ -214,6 +167,10 @@ const WeatherData = () => {
   }
   const getCurrentDay = (data) => {
     setDay(data);
+  }
+
+  const setTheUnits = (units) => {
+    setUnits(units)
   }
 
   const toUpperCase = (phrase) => {
@@ -236,7 +193,6 @@ const WeatherData = () => {
   }
 
   const setBackground = (item) => {
-    console.log(item)
     let bg = codeArray[item.weather[0].icon.substr(0,2)][1];
     let bgnew = bg + ', url("/assets/bg2.png") ';
     let backgroundContainer = document.querySelector('.maincontainer');
@@ -244,7 +200,6 @@ const WeatherData = () => {
       backgroundContainer.style.background = `${bgnew}`;
       backgroundContainer.style.backgroundSize = "cover";
     }
-
   }
 
   const unixTimeConverter = (time, minutes = false, sunrise = false, long = false) => {
@@ -288,7 +243,7 @@ const WeatherData = () => {
   return (
     <React.Fragment>
       {/* <SearchBar loading={loading} value={searchTerm} onChange={setCitySearch} results={searchResults} deleteResults={deleteResults} setCity={handleCityChange}/> */}
-      <MySearchBar onChange={setCitySearch} setCity={handleCityChange} setLat={setLat} setLon={setLon}/>
+      <MySearchBar onChange={setCitySearch} setCity={handleCityChange} setLat={setLat} setLon={setLon} setUnits={setTheUnits} units={units}/>
       <SingleDay data={weather.currentWeather} toUpperCase={toUpperCase} unixTimeConverter={unixTimeConverter} codeArray={codeArray} city={city}/>
       <FiveDay data={weather.fiveDay} toUpperCase={toUpperCase}  sevenDayData={weather.sevenDayWeather} getCurrentDay={getCurrentDay} unixTimeConverter={unixTimeConverter} codeArray={codeArray} />
     </React.Fragment>

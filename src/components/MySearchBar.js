@@ -17,16 +17,11 @@ class LocationSearchInput extends React.Component {
     geocodeByAddress(this.state.address)
     .then(results => getLatLng(results[0]))
     .then(latLng => {
-      console.log('Success', latLng)
-      console.log(latLng.lat)
-      console.log(latLng.lng)
-
       this.props.setLat(latLng.lat)
       this.props.setLon(latLng.lng)
     })
   }
 
- 
   handleChange = address => {
     this.setState({ address });
   };
@@ -43,18 +38,17 @@ class LocationSearchInput extends React.Component {
       return getLatLng(results[0])
     })
     .then(latLng => {
-      console.log('Success', latLng)
-      console.log(latLng.lat)
-      console.log(latLng.lng)
-
       this.props.setLat(latLng.lat)
       this.props.setLon(latLng.lng)
-      console.log()
     }
       )
     .catch(error => console.error('Error', error));
   };
 
+  handleClick = (data) => {
+    this.props.setUnits(data)
+    console.log(data)
+  }
   renderFunc = ({getInputProps, getSuggestionItemProps, suggestions, onSearchChange }) => (
 
       <div className="ui one column grid">
@@ -66,13 +60,17 @@ class LocationSearchInput extends React.Component {
                 <input {...getInputProps()}/>
                 <i aria-hidden="true" className="search icon"></i>
               </div>
+              <div className="units-wrapper">
+                  <img src="/assets/SVG/Celcius.svg" className={this.props.units === 'metric' ? 'active' : ''} alt="" onClick={() => this.handleClick('metric')}/>
+                  <img src="/assets/SVG/Farenheit.svg" className={this.props.units === 'imperial' ? 'active' : ''} alt="" onClick={() => this.handleClick('imperial')}/>
+                </div>
             </div>
           </div>
          <i className="list icon"></i>
          <div className={suggestions.length > 0 ? 'show results' : 'hide'}>
            <div className=""></div>
           {suggestions.map(suggestion => (
-            <div {...getSuggestionItemProps(suggestion)} class="result">
+            <div {...getSuggestionItemProps(suggestion)} className="result" key={suggestion.description}>
               <div className="">{suggestion.description}</div>
             </div>
           ))}

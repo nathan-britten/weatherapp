@@ -8,7 +8,6 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
   const [weather, setWeather] = useState(data);
   useEffect(() => {
     setWeather(data)
-
   }, [data])
   
   const toUpperCase = (phrase) => {
@@ -90,7 +89,6 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
     if(!weather.temp.min) {
       return;
     }
-    console.log(weather)
     return (
       <React.Fragment>
           <div className="three column row minmax-holder">
