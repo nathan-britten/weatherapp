@@ -182,7 +182,12 @@ body {
         box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
         padding: 2px 0 2px 0;
-        margin: 0 10px;      }
+        margin: 0 15px;    
+        @media (min-width: 376px) {
+          margin: 0 25px;    
+
+        }  
+      }
 
       &[data-currentday=currentday] {
         transform: translateY(-2px);
@@ -192,7 +197,11 @@ body {
           border-radius: 10px;
           color: black;
           padding: 2px 0 2px 0;
-          margin: 0 10px;        }
+          margin: 0 15px;  
+          @media (min-width: 376px) {
+            margin: 0 25px;    
+          }   
+        }
       }
       &:not([data-currentday=currentday]) {
         color: rgb(34, 31, 31);
