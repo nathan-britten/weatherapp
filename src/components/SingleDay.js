@@ -49,7 +49,7 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
           <div className="wrapper">
             <img src="/assets/SVG/Wind 2.svg" alt=""/>
             <div className="wind-speed-data">
-              {weather.wind_speed} 
+              {weather.wind_speed.toFixed(1)} 
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
             <div className="wrapper">
               <img src="/assets/SVG/Sun.svg" alt=""/>
               <div className="temp-min-data">
-                {weather.uvi}
+                {weather.uvi.toFixed(1)}
               </div>
             </div>
         </div>
@@ -96,7 +96,7 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
               <div className="wrapper">
               <img src="/assets/SVG/Humidity.svg" alt=""/>
               <div className="wind-speed-data">
-                {weather.pop * 100} %
+                {(weather.pop * 100).toFixed(0)} %
               </div>
             </div>
         </div>
@@ -104,7 +104,7 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
               <div className="wrapper">
                 <img src="/assets/SVG/Temperature down.svg" alt=""/>
                 <div className="temp-min-data">
-                  {weather.temp.min}&#176;
+                  {weather.temp.min.toFixed(0)}&#176;
                 </div>
               </div>
             </div>
@@ -112,7 +112,7 @@ const SingleDay = ({data, unixTimeConverter, codeArray}) => {
               <div className="wrapper">
                 <img src="/assets/SVG/Temperature up.svg" alt=""/>
                 <div className="temp-max-data">
-                  {weather.temp.max}&#176;
+                  {weather.temp.max.toFixed(0)}&#176;
                 </div>
               </div>
             </div>

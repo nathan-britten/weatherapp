@@ -125,7 +125,7 @@ const WeatherData = () => {
 
   useEffect(() => {
     loadCurrentWeather();
-  }, [day, weather.sevenDayWeather])
+  }, [day, weather.sevenDayWeather, city])
 
   const loadCurrentWeather = (firstDayData) => {
     //if not load initialCurrentWeather

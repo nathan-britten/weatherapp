@@ -34,7 +34,6 @@ class LocationSearchInput extends React.Component {
 
     geocodeByAddress(address)
     .then(results => {
-      console.log(results)
       return getLatLng(results[0])
     })
     .then(latLng => {

@@ -54,10 +54,17 @@ body {
       align-items: center;
       .ui.icon.input {
         max-width: 70%;
+
+        @media (min-width: 350px) {
+        max-width: 80%;
+        }
       }
       .units-wrapper {
         position: absolute;
-        right: -20px;
+        right: -10px;
+        @media (min-width: 350px) {
+          right: -35px;
+          }
         top: 50%;
         transform: translateY(-45%);
         img {
@@ -129,7 +136,6 @@ body {
     }
     .minmax-holder {
       height: 101px;
-      animation: appear-holder .3s linear;
       transition: all .5s linear;
       & > .column {
         text-align: center;
@@ -182,10 +188,14 @@ body {
         box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
         padding: 2px 0 2px 0;
-        margin: 0 15px;    
+        margin: 0 15px; 
+        padding: 2px;   
         @media (min-width: 376px) {
-          margin: 0 25px;    
-
+          margin: 0 15px; 
+          padding: 7px;
+        }  
+        @media (min-width: 700px) {
+          margin: 0 10px;    
         }  
       }
 
@@ -197,9 +207,16 @@ body {
           border-radius: 10px;
           color: black;
           padding: 2px 0 2px 0;
+          
           margin: 0 15px;  
+          padding: 2px;   
           @media (min-width: 376px) {
-            margin: 0 25px;    
+            margin: 0 15px;   
+            padding: 7px;
+ 
+          }   
+          @media (min-width: 700px) {
+            margin: 0 10px;    
           }   
         }
       }
@@ -440,6 +457,7 @@ body {
 
   .placeholder.segment {
     min-height: 100px;
+    transition: all .5s ease;
     .header {
       margin: 0;
     }
@@ -447,10 +465,9 @@ body {
   .results {
     position: absolute;
     top: 80%;
-    left: 70px;
-    @media (min-width: 1200px) {
-      left: 97px;
-    }
+    left: 50%;
+    transform: translateX(-50%);
+    
 
     transform-origin: center top;
     white-space: normal;
